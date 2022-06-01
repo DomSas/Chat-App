@@ -1,0 +1,35 @@
+/* iOS Cordova Tweak */
+.device-cordova.device-ios {
+  height: 100vh;
+}
+
+/* Your app custom styles here */
+
+$medium-text: 20px;
+$small-text: 16px;
+
+@mixin page-container {
+  display: flex;
+  justify-content: center;
+  text-align: center
+}
+
+
+.login-page {
+  @include page-container();
+
+  background-image: url("../static/waves_top_small.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &__logo {
+    width: 220px;
+    margin: 120px 0 10px 0;
+  }
+
+  &__introduction {
+    color: white;
+    font-size: $small-text;
+  }
+
+}

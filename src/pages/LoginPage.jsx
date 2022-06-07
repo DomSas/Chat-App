@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  Page,
-  Navbar,
-  NavTitle,
-  NavTitleLarge,
-  Link,
-  Toolbar,
-  Block,
-} from "framework7-react";
+import { Page, f7 } from "framework7-react";
+import { loginFirestore } from "../js/db";
 
 const LoginPage = () => {
-  const [userName, setUserName] = useState({});
+  const [userName, setUserName] = useState("");
   const [userGender, setUserGender] = useState();
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setUserName((values) => ({ ...values, [name]: value }));
-    console.log(userName);
-  };
+  const login = () => {
+    // console.log(process.env.REACT_APP_SECRET_NAME)
 
-  const toggleGender = (gender) => {
-    setUserGender(gender);
-    console.log(userGender);
+    loginFirestore();
+
+    console.log(userName + " " + userGender);
+    f7.views.current.router.navigate("/groups", {
+      transition: "f7-dive",
+      clearPreviousHistory: true,
+    });
   };
 
   return (
@@ -45,8 +38,8 @@ const LoginPage = () => {
           type='text'
           name='username'
           placeholder='Username'
-          value={userName.username || ""}
-          onChange={handleChange}
+          value={userName || ""}
+          onChange={(event) => setUserName(event.target.value)}
         />
 
         <div className='login-page__gender-container'>
@@ -55,7 +48,7 @@ const LoginPage = () => {
               "login-page__male-button " +
               (userGender === "male" ? "is-active" : "")
             }
-            onClick={() => toggleGender("male")}
+            onClick={() => setUserGender("male")}
           >
             <img
               className='login-page__male-icon'
@@ -68,7 +61,7 @@ const LoginPage = () => {
               "login-page__female-button " +
               (userGender === "female" ? "is-active" : "")
             }
-            onClick={() => toggleGender("female")}
+            onClick={() => setUserGender("female")}
           >
             <img
               className='login-page__female-icon'
@@ -78,7 +71,9 @@ const LoginPage = () => {
           </div>
         </div>
 
-        <button className='login-page__button'>Login</button>
+        <a className='login-page__button' href='/groups' onClick={login}>
+          Login
+        </a>
 
         <p className='login-page__app-info'>
           Created by Asial Corporation <br />

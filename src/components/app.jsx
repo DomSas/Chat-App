@@ -9,7 +9,6 @@ import {
 import cordovaApp from '../js/cordova-app';
 
 import routes from '../js/routes';
-import store from '../js/store';
 
 const MyApp = () => {
 
@@ -21,8 +20,6 @@ const MyApp = () => {
 
 
       id: 'io.framework7.myapp', // App bundle ID
-      // App store
-      store: store,
       // App routes
       routes: routes,
 
@@ -52,7 +49,7 @@ const MyApp = () => {
     <App { ...f7params } >
 
         {/* Your main view, should have "view-main" class */}
-        <View main className="safe-areas" url="/" />
+        <View main url="/" />
 
     </App>
   );

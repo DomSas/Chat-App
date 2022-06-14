@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import {
   getAuth,
   signInAnonymously,
@@ -8,6 +8,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { f7 } from "framework7-react";
+import { store } from "../state/store";
+import { login, logout } from "../state/user/userSlice";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -24,14 +26,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
-export const getGroups = async () => {
-  const citiesCol = collection(db, "groups");
-  const citySnapshot = await getDocs(citiesCol);
-  const cityList = citySnapshot.docs.map((doc) => doc.data());
-  return cityList;
-}
-
-export const loginFirestore = () => {
+export const loginFirebase = () => {
   signInAnonymously(auth)
     .then(() => {
       console.log("Signed in successful");
@@ -44,6 +39,7 @@ export const loginFirestore = () => {
 export const logoutFirebase = () => {
   signOut(auth)
     .then(() => {
+      store.dispatch(logout());
       console.log("Sign-out successful");
       f7.views.current.router.navigate("/", {
         transition: "f7-dive",
@@ -51,18 +47,34 @@ export const logoutFirebase = () => {
       });
     })
     .catch((error) => {
-      // An error happened.
       console.log(error);
     });
 };
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("Logged in user has id: " + user.uid);
-    f7.views.current.router.navigate("/groups", {
-      transition: "f7-dive",
-      clearPreviousHistory: true,
-    });
+    store.dispatch(login({ uid: user.uid }));
+
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      // Get data from database and save them to store
+      store.dispatch(
+        login({
+          name: docSnap.data().name,
+          gender: docSnap.data().gender,
+          image: docSnap.data().image,
+        })
+      );
+    } else {
+      // Add new user to database
+      setDoc(doc(db, "users", user.uid), {
+        name: store.getState().user.name,
+        gender: store.getState().user.gender,
+        image: store.getState().user.image,
+      });
+    }
   } else {
     console.log("No logged in user found");
   }

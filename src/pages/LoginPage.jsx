@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../state/user/userSlice";
 import { Page, f7 } from "framework7-react";
-import { loginFirestore } from "../js/db";
+import { loginFirebase } from "../js/db";
 
 const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [userGender, setUserGender] = useState();
+  const dispatch = useDispatch();
+  const userNameSelector = useSelector((state) => state.user.name);
+  const userGenderSelector = useSelector((state) => state.user.gender);
 
-  const login = () => {
+  useEffect(() => {
+    setUserName(userNameSelector);
+    setUserGender(userGenderSelector);
+  }, [userNameSelector]);
+
+  const loginButtonClick = () => {
     // console.log(process.env.REACT_APP_SECRET_NAME)
+    const imageURL = `https://randomuser.me/api/portraits/${userGender}/${Math.floor(
+      Math.random() * 100
+    )}.jpg`;
 
-    loginFirestore();
-
-    console.log(userName + " " + userGender);
-    f7.views.current.router.navigate("/groups", {
-      transition: "f7-dive",
-      clearPreviousHistory: true,
-    });
+    loginFirebase();
+    dispatch(
+      login({
+        name: userName,
+        gender: userGender,
+        image: imageURL,
+      })
+    );
   };
 
   return (
@@ -26,10 +40,17 @@ const LoginPage = () => {
           src='../static/LW_logo.png'
           alt='LW_logo'
         />
-        <p className='login-page__introduction'>
-          <b>Let&apos;s Write</b> helps you connect <br /> with likeminded peers
-          around the globe!
-        </p>
+        {userNameSelector === "" ? (
+          <p className='login-page__introduction'>
+            <b>Let&apos;s Write</b> helps you connect <br /> with likeminded
+            peers around the globe!
+          </p>
+        ) : (
+          <p className='login-page__introduction'>
+            Welcome back <b>{userNameSelector}</b>!<br />
+            Click Enter to get in.
+          </p>
+        )}
       </div>
 
       <div className='login-page__form-container'>
@@ -38,7 +59,7 @@ const LoginPage = () => {
           type='text'
           name='username'
           placeholder='Username'
-          value={userName || ""}
+          value={userName || userNameSelector || ""}
           onChange={(event) => setUserName(event.target.value)}
         />
 
@@ -46,9 +67,9 @@ const LoginPage = () => {
           <div
             className={
               "login-page__male-button " +
-              (userGender === "male" ? "is-active" : "")
+              (userGender === "men" ? "is-active" : "")
             }
-            onClick={() => setUserGender("male")}
+            onClick={() => setUserGender("men")}
           >
             <img
               className='login-page__male-icon'
@@ -59,9 +80,9 @@ const LoginPage = () => {
           <div
             className={
               "login-page__female-button " +
-              (userGender === "female" ? "is-active" : "")
+              (userGender === "women" ? "is-active" : "")
             }
-            onClick={() => setUserGender("female")}
+            onClick={() => setUserGender("women")}
           >
             <img
               className='login-page__female-icon'
@@ -70,10 +91,25 @@ const LoginPage = () => {
             />
           </div>
         </div>
-
-        <a className='login-page__button' href='/groups' onClick={login}>
-          Login
-        </a>
+        {!userName || !userGender ? (
+          <a
+            className='login-page__button login-page__button--disabled'
+          >
+            Login
+          </a>
+        ) : userNameSelector === "" ? (
+          <a
+            className='login-page__button'
+            href='/groups'
+            onClick={loginButtonClick}
+          >
+            Login
+          </a>
+        ) : (
+          <a className='login-page__button' href='/groups'>
+            Enter
+          </a>
+        )}
 
         <p className='login-page__app-info'>
           Created by Asial Corporation <br />

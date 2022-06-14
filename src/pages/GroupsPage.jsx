@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Page, Navbar, NavTitle, NavLeft, Link } from "framework7-react";
-import { getGroups, logoutFirebase } from "../js/db";
+import { logoutFirebase } from "../js/db";
 
 const GroupsPage = () => {
   useEffect(() => {

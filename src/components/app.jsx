@@ -1,42 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { getDevice }  from 'framework7/lite-bundle';
-import {
-  f7,
-  f7ready,
-  App,
-  View,
-} from 'framework7-react';
-import cordovaApp from '../js/cordova-app';
+import React, { useState, useEffect } from "react";
+import { getDevice } from "framework7/lite-bundle";
+import { f7, f7ready, App, View } from "framework7-react";
+import cordovaApp from "../js/cordova-app";
 
-import routes from '../js/routes';
-import store from '../js/store';
+import routes from "../js/routes";
+import { store } from "../state/store";
+import { Provider } from "react-redux";
 
 const MyApp = () => {
-
   const device = getDevice();
   // Framework7 Parameters
   const f7params = {
-    name: 'My App', // App name
-      theme: 'auto', // Automatic theme detection
+    name: "My App", // App name
+    theme: "auto", // Automatic theme detection
 
+    id: "io.framework7.myapp", // App bundle ID
+    // App routes
+    routes: routes,
 
-      id: 'io.framework7.myapp', // App bundle ID
-      // App store
-      store: store,
-      // App routes
-      routes: routes,
-
-
-      // Input settings
-      input: {
-        scrollIntoViewOnFocus: device.cordova && !device.electron,
-        scrollIntoViewCentered: device.cordova && !device.electron,
-      },
-      // Cordova Statusbar settings
-      statusbar: {
-        iosOverlaysWebView: true,
-        androidOverlaysWebView: false,
-      },
+    // Input settings
+    input: {
+      scrollIntoViewOnFocus: device.cordova && !device.electron,
+      scrollIntoViewCentered: device.cordova && !device.electron,
+    },
+    // Cordova Statusbar settings
+    statusbar: {
+      iosOverlaysWebView: true,
+      androidOverlaysWebView: false,
+    },
   };
 
   f7ready(() => {
@@ -49,12 +40,12 @@ const MyApp = () => {
   });
 
   return (
-    <App { ...f7params } >
-
+    <Provider store={store}>
+      <App {...f7params}>
         {/* Your main view, should have "view-main" class */}
-        <View main className="safe-areas" url="/" />
-
-    </App>
+        <View main url='/' />
+      </App>
+    </Provider>
   );
-}
+};
 export default MyApp;

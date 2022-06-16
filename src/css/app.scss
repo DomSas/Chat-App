@@ -10,7 +10,6 @@
   // overflow: hidden !important; /* Hide scrollbars */
 }
 
-
 $grey-color: #adadad;
 $medium-text: 20px;
 $small-text: 16px;
@@ -135,7 +134,7 @@ $small-text: 16px;
     color: #ffffff;
     font-size: $medium-text;
 
-    &--disabled{
+    &--disabled {
       opacity: 0.3;
     }
   }
@@ -149,4 +148,59 @@ $small-text: 16px;
     font-size: $small-text;
     color: $grey-color;
   }
+}
+
+.groups-page {
+  background-image: url("../static/waves_bottom_small.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+
+  &__user-image {
+    border: 1px solid #0300aa;
+    border-radius: 50%;
+    height: 30px;
+    // margin-right: 3px;
+  }
+
+  &__group-list {
+    margin: 0;
+  }
+
+  &__group-list-title {
+    margin: 20px 25px 15px 25px;
+  }
+
+  &__group-list-container {
+    margin: 0;
+  }
+
+  &__user-profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 200px;
+  }
+
+  &__user-profile-image {
+    border: 2px solid #0300aa;
+    border-radius: 50%;
+    width: 100px;
+    margin: 20px auto 10px auto;
+  }
+
+  &__user-profile-name {
+    margin: 0 0 10px 0;
+  }
+
+  &__popover-menu {
+    width: 150px;
+  }
+}
+
+// Framework7 tweaks
+
+.popover-inner {
+  display: flex;
 }

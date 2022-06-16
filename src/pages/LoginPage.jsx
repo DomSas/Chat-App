@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../state/user/userSlice";
-import { Page, f7 } from "framework7-react";
+import { login } from "../state/slices/userSlice";
+import { addGroups } from "../state/slices/groupsSlice";
+import { Page } from "framework7-react";
 import { loginFirebase } from "../js/db";
 
 const LoginPage = () => {

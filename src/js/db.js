@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 import {
   getAuth,
   signInAnonymously,
@@ -9,7 +16,8 @@ import {
 } from "firebase/auth";
 import { f7 } from "framework7-react";
 import { store } from "../state/store";
-import { login, logout } from "../state/user/userSlice";
+import { login, logout } from "../state/slices/userSlice";
+import { addGroups } from "../state/slices/groupsSlice";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,7 +36,7 @@ const auth = getAuth();
 
 export const loginFirebase = () => {
   signInAnonymously(auth)
-    .then(() => {
+    .then(async () => {
       console.log("Signed in successful");
     })
     .catch((error) => {
@@ -54,6 +62,7 @@ export const logoutFirebase = () => {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     store.dispatch(login({ uid: user.uid }));
+    store.dispatch(addGroups(await getChatGroupsFirebase()));
 
     const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
@@ -79,3 +88,24 @@ onAuthStateChanged(auth, async (user) => {
     console.log("No logged in user found");
   }
 });
+
+export const getChatGroupsFirebase = async () => {
+  const groupsCollection = collection(db, "groups");
+  const groupSnapshot = await getDocs(groupsCollection);
+  const chatGroups = groupSnapshot.docs.map((document) => document.data());
+  let studying = [];
+  let travelling = [];
+
+  chatGroups.map((item) => {
+    switch (item.category) {
+      case "Travelling":
+        travelling.push(item);
+        break;
+      case "Studying":
+        studying.push(item);
+        break;
+    }
+  });
+
+  return { Studying: studying, Travelling: travelling };
+};

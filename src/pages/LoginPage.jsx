@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../state/slices/userSlice";
-import { addGroups } from "../state/slices/groupsSlice";
 import { Page } from "framework7-react";
 import { loginFirebase } from "../js/db";
+import male_icon from '../static/male_icon.png'
+import female_icon from '../static/female_icon.png'
+import LW_logo from '../static/LW_logo.png'
 
 const LoginPage = () => {
   const [userName, setUserName] = useState("");
@@ -38,7 +40,7 @@ const LoginPage = () => {
       <div className='login-page__header-container'>
         <img
           className='login-page__logo'
-          src='../static/LW_logo.png'
+          src={LW_logo}
           alt='LW_logo'
         />
         {userNameSelector === "" ? (
@@ -74,7 +76,7 @@ const LoginPage = () => {
           >
             <img
               className='login-page__male-icon'
-              src='../static/male_icon.png'
+              src={male_icon}
               alt='male_icon'
             />
           </div>
@@ -87,7 +89,7 @@ const LoginPage = () => {
           >
             <img
               className='login-page__female-icon'
-              src='../static/female_icon.png'
+              src={female_icon}
               alt='female_icon'
             />
           </div>

@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  allGroups: [],
+  selectedGroup: "",
+  newMessage: ""
+};
 
 export const groupsSlice = createSlice({
   name: "user",
@@ -14,4 +18,3 @@ export const groupsSlice = createSlice({
 
 export const { addGroups } = groupsSlice.actions;
 export default groupsSlice.reducer;
-

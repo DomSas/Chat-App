@@ -7,6 +7,8 @@ import {
   getDoc,
   getDocs,
   collection,
+  addDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -61,8 +63,13 @@ export const logoutFirebase = () => {
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    let allGroups = await getChatGroupsFirebase();
     store.dispatch(login({ uid: user.uid }));
-    store.dispatch(addGroups(await getChatGroupsFirebase()));
+    store.dispatch(
+      addGroups({
+        allGroups,
+      })
+    );
 
     const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
@@ -108,4 +115,45 @@ export const getChatGroupsFirebase = async () => {
   });
 
   return { Studying: studying, Travelling: travelling };
+};
+
+export const getMessagesFromDatabase = async (chosenGroup) => {
+  const messagesCollection = collection(db, "messages");
+  const messagesSnapshot = await getDocs(messagesCollection);
+  const chatMessages = messagesSnapshot.docs.map((document) => document.data());
+
+  const groupChatMessages = chatMessages
+    .filter((item) => item.group === chosenGroup)
+    .sort((a, b) => {
+      return a.time - b.time;
+    });
+
+  return groupChatMessages;
+};
+
+export const sendMessageToDatabase = (messageInfo) => {
+  const date = new Date();
+  let currentTime = date.getTime();
+
+  const docRef = addDoc(collection(db, "messages"), {
+    name: messageInfo.name,
+    group: messageInfo.group,
+    avatar: messageInfo.image,
+    userID: messageInfo.userID,
+    text: messageInfo.text,
+    time: currentTime,
+  });
+};
+
+export const listenToDatabaseChange = () => {
+  onSnapshot(collection(db, "messages"), () => {
+    store.dispatch(addGroups({ newMessage: "yes" }));
+  });
+};
+
+export const skuska = () => {
+  const skuska = db.collection("messages");
+  const query = skuska.orderBy("time").limit(25);
+
+  return query;
 };

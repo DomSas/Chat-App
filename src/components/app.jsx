@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { getDevice } from "framework7/lite-bundle";
 import { f7, f7ready, App, View } from "framework7-react";
 import cordovaApp from "../js/cordova-app";
@@ -35,14 +35,11 @@ const MyApp = () => {
     if (f7.device.cordova) {
       cordovaApp.init(f7);
     }
-
-    // Call F7 APIs here
   });
 
   return (
     <Provider store={store}>
       <App {...f7params}>
-        {/* Your main view, should have "view-main" class */}
         <View main url='/' />
       </App>
     </Provider>

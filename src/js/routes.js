@@ -1,5 +1,6 @@
 import GroupsPage from "../pages/GroupsPage.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
+import MessagesPage from "../pages/MessagesPage.jsx";
 
 var routes = [
   {
@@ -12,6 +13,10 @@ var routes = [
     options: {
       clearPreviousHistory: true,
     },
+  },
+  {
+    path: "/messages",
+    component: MessagesPage,
   },
 ];
 

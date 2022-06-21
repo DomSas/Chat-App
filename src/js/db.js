@@ -150,10 +150,3 @@ export const listenToDatabaseChange = () => {
     store.dispatch(addGroups({ newMessage: "yes" }));
   });
 };
-
-export const skuska = () => {
-  const skuska = db.collection("messages");
-  const query = skuska.orderBy("time").limit(25);
-
-  return query;
-};

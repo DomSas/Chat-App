@@ -20,7 +20,6 @@ const LoginPage = () => {
   }, [userNameSelector]);
 
   const loginButtonClick = () => {
-    // console.log(process.env.REACT_APP_SECRET_NAME)
     const imageURL = `https://randomuser.me/api/portraits/${userGender}/${Math.floor(
       Math.random() * 100
     )}.jpg`;

@@ -11,7 +11,7 @@ const MyApp = () => {
   const device = getDevice();
   // Framework7 Parameters
   const f7params = {
-    name: "My App", // App name
+    name: "Lets write", // App name
     theme: "auto", // Automatic theme detection
 
     id: "io.framework7.myapp", // App bundle ID

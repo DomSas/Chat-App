@@ -3,11 +3,8 @@
   height: 100vh;
 }
 
-/* Your app custom styles here */
-
 * {
   font-family: "Open Sans", sans-serif;
-  // overflow: hidden !important; /* Hide scrollbars */
 }
 
 $grey-color: #adadad;
@@ -26,14 +23,33 @@ $small-text: 16px;
   background-repeat: no-repeat;
   background-size: contain;
 
+  @media (min-width: 500px) {
+    background-image: url("../static/waves_top_medium.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  @media (min-width: 850px) {
+    background-image: url("../static/waves_top_big.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
   &__logo {
-    width: 220px;
-    margin: 120px 0 10px 0;
+    width: 200px;
+    margin: 70px 0 10px 0;
+    @media (min-height: 750px) {
+      margin: 100px 0 10px 0;
+    }
   }
 
   &__introduction {
     color: #ffffff;
     font-size: $small-text;
+
+    @media (min-width: 500px) {
+      font-size: $medium-text;
+    }
   }
 
   input {
@@ -41,11 +57,12 @@ $small-text: 16px;
     text-align: center;
 
     width: 80%;
+    max-width: 400px;
     height: 50px;
 
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.25);
     border-radius: 25px;
-    margin: 150px auto 0 auto;
+    margin: 70px auto 0 auto;
 
     font-size: $medium-text;
   }
@@ -59,6 +76,15 @@ $small-text: 16px;
   input:focus {
     box-shadow: 1px 1px 5px 0px #1b02b9;
     transition: 0.5s;
+  }
+
+  &__form-container {
+    @media (min-height: 750px) {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+    }
   }
 
   &__gender-container {
@@ -145,6 +171,7 @@ $small-text: 16px;
   }
 
   &__app-info {
+    margin-top: 30px;
     font-size: $small-text;
     color: $grey-color;
   }
@@ -156,11 +183,17 @@ $small-text: 16px;
   background-size: contain;
   background-position: bottom;
 
+  @media (min-width: 600px) {
+    background-image: url("../static/waves_bottom_big.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom;
+  }
+
   &__user-image {
     border: 1px solid #0300aa;
     border-radius: 50%;
     height: 30px;
-    // margin-right: 3px;
   }
 
   &__group-list {
@@ -173,6 +206,10 @@ $small-text: 16px;
 
   &__group-list-container {
     margin: 0;
+    @media (min-width: 600px) {
+      width: 70%;
+      margin: auto;
+    }
   }
 
   &__user-profile-container {

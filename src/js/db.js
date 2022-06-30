@@ -15,6 +15,8 @@ import {
   signInAnonymously,
   onAuthStateChanged,
   signOut,
+  initializeAuth,
+  indexedDBLocalPersistence,
 } from "firebase/auth";
 import { f7 } from "framework7-react";
 import { store } from "../state/store";
@@ -31,10 +33,27 @@ const firebaseConfig = {
   appId: "1:598135368914:web:8cccdd8e45dafedc0ad10b",
 };
 
-// Initialize Firebase
+// Initialize Firebase App and Database
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth();
+
+const isIos = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/iPad|iPhone|iPod/i.test(userAgent)) return true;
+  return false;
+};
+
+const getFirebaseAuth = () => {
+  if (isIos()) {
+    return initializeAuth(app, {
+      persistence: indexedDBLocalPersistence,
+    });
+  }
+  return getAuth(app);
+};
+
+// Initialize Firebase auth
+const auth = getFirebaseAuth();
 
 export const loginFirebase = () => {
   signInAnonymously(auth)

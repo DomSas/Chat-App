@@ -1,5 +1,5 @@
 {
-    "name": "framework7-v6-react-blank",
+    "name": "chat-app",
     "private": true,
     "version": "1.0.0",
     "scripts": {
@@ -9,13 +9,15 @@
         "dev": "cross-env NODE_ENV=development vite",
         "watch": "cross-env NODE_ENV=development vite build --watch",
         "build": "cross-env NODE_ENV=production vite build",
+        "copy:sw": "cpy src/service-worker.js www/",
+        "copy:sw-icons": "cpy icons www/assets/",
+        "postbuild": "npm run copy:sw && npm run copy:sw-icons",
         "postinstall": "cpy ./node_modules/framework7-icons/fonts/*.* ./src/fonts/ && cpy ./node_modules/material-icons/iconfont/*.* ./src/fonts/"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.2",
         "cordova-plugin-splashscreen": "6.0.0",
         "cordova-plugin-statusbar": "2.4.3",
-        "cpy-cli": "^3.1.1",
         "dom7": "^3.0.0",
         "dotenv": "^16.0.1",
         "firebase": "^9.8.2",
@@ -30,6 +32,7 @@
         "react-redux": "^8.0.2",
         "redux": "^4.2.0",
         "skeleton-elements": "^3.5.0",
+        "cpy-cli": "^3.1.1",
         "swiper": "^6.8.4"
     },
     "devDependencies": {

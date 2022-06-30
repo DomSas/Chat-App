@@ -1,6 +1,6 @@
 # Chat-App
 
-Hybrid live chat app where people are able to login anonymously and write in chat rooms about specific topic.
+Hybrid live chat app where people are able to login anonymously and write in chat rooms about specific topic. Deployed demo can be accessed [here](https://pwa-blank.web.app/).
 
 Technologies used: 
 - Frontend: React (React Toolkit for state management) and Framework7.

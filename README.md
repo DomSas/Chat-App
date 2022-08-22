@@ -28,6 +28,6 @@ Tutorial will be available in Medium soon.
 - `userSlice.js` - Redux Toolkit slice for user information
 
 #### React
-- `LoginPage.vue` - login page to write name and choose gender
-- `GroupsPage.vue` - screen containing chat groups
-- `MessagesPage.vue` - screen with chat messages
+- `LoginPage.jsx` - login page to write name and choose gender
+- `GroupsPage.jsx` - screen containing chat groups
+- `MessagesPage.jsx` - screen with chat messages
